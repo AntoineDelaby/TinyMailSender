@@ -16,8 +16,10 @@ public class TinyMailSenderApplication {
 	public static void main(String[] args) throws IOException, MessagingException {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		String username = "from@gmail.com";
-		String password = "*****";
+		String username = reader.readLine();
+		System.out.println(username);
+		String password = reader.readLine();
+		System.out.println(password);
 
 		String host = "smtp.gmail.com";
 		Properties prop = new Properties();
@@ -34,12 +36,16 @@ public class TinyMailSenderApplication {
 		});
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress("from@gmail.com"));
+		System.out.println("from :");
+		message.setFrom(new InternetAddress(reader.readLine()));
+		System.out.println("to :");
 		message.setRecipients(
-				Message.RecipientType.TO, InternetAddress.parse("to@gmail.com"));
-		message.setSubject("Mail subject");
+				Message.RecipientType.TO, InternetAddress.parse(reader.readLine()));
+		System.out.println("mail subject :");
+		message.setSubject(reader.readLine());
 
-		String msg = "Mail content";
+		System.out.println("Mail content : \n");
+		String msg = reader.readLine();
 
 		MimeBodyPart mimeBodyPart = new MimeBodyPart();
 		mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
@@ -50,8 +56,6 @@ public class TinyMailSenderApplication {
 		message.setContent(multipart);
 
 		Transport.send(message);
-
-		SpringApplication.run(TinyMailSenderApplication.class, args);
 	}
 
 }
